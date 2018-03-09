@@ -11,17 +11,16 @@ def dfs_solver(maze):
     stack = []
     stack.append(maze.start)
     path.append(maze.start)
-    discoverd = {}
-    while len(stack) > 0:
-        cell = stack[-1]
+    discovered = {}
+    while stack:
+        cell = stack.pop(-1)
         if cell == maze.goal:
             break
-        stack.pop()
-        if(discoverd.setdefault(cell, False)):
+        if(discovered.setdefault(cell, False)):
             continue
-        discoverd[cell] = True
+        discovered[cell] = True
         for ncell in maze.get_neighbors(cell):
-            if not discoverd.setdefault(ncell, False):
+            if not discovered.setdefault(ncell, False):
                 stack.append(ncell)
                 path.append(ncell)
     print(path)
@@ -29,7 +28,24 @@ def dfs_solver(maze):
 
 
 def bfs_solver(maze):
-    return []
+    path = []
+    queue = []
+    path.append(maze.start)
+    queue.append(maze.start)
+    discovered = {}
+    while queue:
+        cell = queue.pop(0)
+        if cell == maze.goal:
+            break
+        if(discovered.setdefault(cell, False)):
+            continue
+        discovered[cell] = True
+        for ncell in maze.get_neighbors(cell):
+            if not discovered.setdefault(ncell, False):
+                queue.append(ncell)
+                path.append(ncell)
+    print(path)
+    return path
 
 
 def astar_heuristic(maze, cell):
