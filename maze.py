@@ -198,7 +198,7 @@ if __name__ == "__main__":
     m.setup_maze()
     d = Displayer(m)
 
-    """   UNCOMMENT TO DISABLE IDFS
+    # """   UNCOMMENT TO DISABLE IDFS
     print(">> Testing Iterative DFS solver...")
     idfs_path = iterative_dfs_solver(m)
     try:
@@ -210,9 +210,9 @@ if __name__ == "__main__":
             d.draw_path(idfs_path)
     except AssertionError as e:
         print ("Iterative DFS answer is invalid: " + e.message)
-        UNCOMMENT TO DISABLE IDFS """
+        # UNCOMMENT TO DISABLE IDFS """
 
-    # """   UNCOMMENT TO DISABLE BFS
+    """   UNCOMMENT TO DISABLE BFS
     print(">> Testing BFS solver...")
     bfs_path = bfs_solver(m)
     try:
@@ -224,9 +224,9 @@ if __name__ == "__main__":
         d.draw_path(bfs_path)
     except AssertionError as e:
         print(("BFS answer is invalid: " + e.message))
-    # UNCOMMENT TO DISABLE BFS """
+    UNCOMMENT TO DISABLE BFS """
 
-    # """ UNCOMMENT TO DISABLE DFS
+    """ UNCOMMENT TO DISABLE DFS
     print(">> Testing DFS solver...")
     dfs_path = dfs_solver(m)
     try:
@@ -239,7 +239,7 @@ if __name__ == "__main__":
         d.draw_path(dfs_path)
     except AssertionError as e:
         print(("DFS answer is invalid: " + e.message))
-    # UNCOMMENT TO DISABLE DFS """
+    UNCOMMENT TO DISABLE DFS """
 
 
     """  UNCOMMENT TO DISABLE A*
