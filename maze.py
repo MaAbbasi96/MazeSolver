@@ -238,7 +238,7 @@ if __name__ == "__main__":
         print ("Display DFS solution? [y/n]")
         # display_command =eval(input())
         # if "y" in display_command:
-        # d.draw_path(dfs_path)
+        d.draw_path(dfs_path)
         a = input()
     except AssertionError as e:
         print(("DFS answer is invalid: " + e.message))
@@ -255,7 +255,7 @@ if __name__ == "__main__":
         print ("Display A* solution? [y/n]")
         # display_command =eval(input())
         # if "y" in display_command:
-        # d.draw_path(astar_path)
+        d.draw_path(astar_path)
         a = input()
     except AssertionError as e:
         print(("A* answer is invalid: " + e.message))
