@@ -23,7 +23,6 @@ def dfs_solver(maze):
             if not discovered.setdefault(ncell, False):
                 stack.append(ncell)
                 path.append(ncell)
-    print(path)
     return path
 
 
@@ -44,7 +43,6 @@ def bfs_solver(maze):
             if not discovered.setdefault(ncell, False):
                 queue.append(ncell)
                 path.append(ncell)
-    print(path)
     return path
 
 
