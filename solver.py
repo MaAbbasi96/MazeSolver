@@ -73,8 +73,8 @@ def bfs_solver(maze):
     return path
 
 
-def astar_heuristic(maze, cell):
-    return sqrt((maze.goal[0] - cell[0]) * (maze.goal[0] - cell[0]) + (maze.goal[1] - cell[1]) * (maze.goal[1] - cell[1]))
+def astar_heuristic(maze, cell, cost):
+    return 0 * cost + sqrt((maze.goal[0] - cell[0]) * (maze.goal[0] - cell[0]) + (maze.goal[1] - cell[1]) * (maze.goal[1] - cell[1]))
 
 
 def astar_solver(maze):
@@ -82,8 +82,8 @@ def astar_solver(maze):
     heap = []
     cell_map = {}
     discovered = {}
+    distance = astar_heuristic(maze, maze.start, len(path))
     path.append(maze.start)
-    distance = astar_heuristic(maze, maze.start)
     heappush(heap, distance)
     cell_map.setdefault(distance, []).append(maze.start)
     while True:
@@ -95,7 +95,7 @@ def astar_solver(maze):
         discovered[cell] = True
         for ncell in maze.get_neighbors(cell):
             if not discovered.setdefault(ncell, False):
-                distance = astar_heuristic(maze, ncell)
+                distance = astar_heuristic(maze, ncell, len(path))
                 heappush(heap, distance)
                 cell_map.setdefault(distance, []).append(ncell)
                 path.append(ncell)
