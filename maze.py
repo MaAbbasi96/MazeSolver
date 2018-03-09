@@ -205,14 +205,15 @@ if __name__ == "__main__":
         validate_answer(m, idfs_path) #m.goal in bfs_path:
         print ("Iterative DFS solved maze. cost: ", len(idfs_path), "cells visited")
         print ("Display Iterative DFS solution? [y/n]")
-        display_command =input()
-        if "y" in display_command:
-            d.draw_path(idfs_path)
+        # display_command =input()
+        # if "y" in display_command:
+        d.draw_path(idfs_path)
+        a = input()
     except AssertionError as e:
         print ("Iterative DFS answer is invalid: " + e.message)
         # UNCOMMENT TO DISABLE IDFS """
 
-    """   UNCOMMENT TO DISABLE BFS
+    # """   UNCOMMENT TO DISABLE BFS
     print(">> Testing BFS solver...")
     bfs_path = bfs_solver(m)
     try:
@@ -222,11 +223,12 @@ if __name__ == "__main__":
         # display_command =eval(input())
         # if "y" in display_command:
         d.draw_path(bfs_path)
+        a = input()
     except AssertionError as e:
         print(("BFS answer is invalid: " + e.message))
-    UNCOMMENT TO DISABLE BFS """
+    # UNCOMMENT TO DISABLE BFS """
 
-    """ UNCOMMENT TO DISABLE DFS
+    # """ UNCOMMENT TO DISABLE DFS
     print(">> Testing DFS solver...")
     dfs_path = dfs_solver(m)
     try:
@@ -237,12 +239,13 @@ if __name__ == "__main__":
         # display_command =eval(input())
         # if "y" in display_command:
         d.draw_path(dfs_path)
+        a = input()
     except AssertionError as e:
         print(("DFS answer is invalid: " + e.message))
-    UNCOMMENT TO DISABLE DFS """
+    # UNCOMMENT TO DISABLE DFS """
 
 
-    """  UNCOMMENT TO DISABLE A*
+    # """  UNCOMMENT TO DISABLE A*
     print(">> Testing A* solver...")
     astar_path = astar_solver(m)
     try:
@@ -250,12 +253,13 @@ if __name__ == "__main__":
         print(("A* solved maze. cost: ", len(astar_path), "cells visited"))
 
         print ("Display A* solution? [y/n]")
-        display_command =eval(input())
-        if "y" in display_command:
-            d.draw_path(astar_path)
+        # display_command =eval(input())
+        # if "y" in display_command:
+        d.draw_path(astar_path)
+        a = input()
     except AssertionError as e:
         print(("A* answer is invalid: " + e.message))
-    UNCOMMENT TO DISABLE A* """
+    # UNCOMMENT TO DISABLE A* """
 
     print(" 1) Save maze to file")
     print(" 2) exit")

@@ -1,4 +1,7 @@
 # depth-limited dfs
+from math import sqrt
+from heapq import heappush, heappop
+
 def dls_solver(maze, limit):
     path = []
     stack = []
@@ -71,8 +74,29 @@ def bfs_solver(maze):
 
 
 def astar_heuristic(maze, cell):
-    return 0
+    return sqrt((maze.goal[0] - cell[0]) * (maze.goal[0] - cell[0]) + (maze.goal[1] - cell[1]) * (maze.goal[1] - cell[1]))
 
 
 def astar_solver(maze):
-    return []
+    path = []
+    heap = []
+    cell_map = {}
+    discovered = {}
+    path.append(maze.start)
+    distance = astar_heuristic(maze, maze.start)
+    heappush(heap, distance)
+    cell_map.setdefault(distance, []).append(maze.start)
+    while True:
+        cell = cell_map[heappop(heap)].pop()
+        if cell == maze.goal:
+            break
+        if(discovered.setdefault(cell, False)):
+            continue
+        discovered[cell] = True
+        for ncell in maze.get_neighbors(cell):
+            if not discovered.setdefault(ncell, False):
+                distance = astar_heuristic(maze, ncell)
+                heappush(heap, distance)
+                cell_map.setdefault(distance, []).append(ncell)
+                path.append(ncell)
+    return path
