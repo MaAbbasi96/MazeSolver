@@ -6,29 +6,25 @@ def dls_solver(maze, limit):
 def iterative_dfs_solver(maze):
     return []
 
-def dfs(maze, path, discoverd):
-    if path[-1] == maze.goal:
-        return
-    discoverd[path[-1]] = True
-    for cell in maze.get_neighbors(path[-1]):
-        if not discoverd.setdefault(cell, False):
-            path.append(cell)
-            dfs(maze, path, discoverd)
-
 def dfs_solver(maze):
     path = []
     stack = []
+    stack.append(maze.start)
     path.append(maze.start)
-    while path.count() > 0 or finished:
-        cell = path[-1]
-        path.pop()
-        if discoverd.setdefault(cell, False):
+    discoverd = {}
+    while len(stack) > 0:
+        cell = stack[-1]
+        if cell == maze.goal:
+            break
+        stack.pop()
+        if(discoverd.setdefault(cell, False)):
             continue
         discoverd[cell] = True
-        print(cell)
-        for adj in maze.get_neighbors(cell):
-            if discoverd.setdefault(adj, False):
-                path.append(adj)
+        for ncell in maze.get_neighbors(cell):
+            if not discoverd.setdefault(ncell, False):
+                stack.append(ncell)
+                path.append(ncell)
+    print(path)
     return path
 
 
