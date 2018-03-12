@@ -3,10 +3,11 @@ from math import sqrt
 from heapq import heappush, heappop
 
 def dls_solver(maze, limit):
+    parent = {}
     path = []
     stack = []
     stack.append(maze.start)
-    path.append(maze.start)
+    goal = maze.start
     discovered = {}
     distance = {}
     distance[maze.start] = 0
@@ -21,8 +22,13 @@ def dls_solver(maze, limit):
         for ncell in maze.get_neighbors(cell):
             if not discovered.setdefault(ncell, False):
                 stack.append(ncell)
-                path.append(ncell)
+                goal = ncell
                 distance[ncell] = count + 1
+                parent[ncell] = cell
+    path.append(goal)
+    while not path[0] == maze.start:
+        path.insert(0, parent[goal])
+        goal = parent[goal]
     return path
 
 
@@ -34,10 +40,11 @@ def iterative_dfs_solver(maze):
     return []
 
 def dfs_solver(maze):
+    parent = {}
     path = []
     stack = []
     stack.append(maze.start)
-    path.append(maze.start)
+    goal = maze.start
     discovered = {}
     while stack:
         cell = stack.pop(-1)
@@ -48,19 +55,26 @@ def dfs_solver(maze):
         discovered[cell] = True
         for ncell in maze.get_neighbors(cell):
             if not discovered.setdefault(ncell, False):
+                parent[ncell] = cell
                 stack.append(ncell)
-                path.append(ncell)
+                goal = ncell
+    path.append(goal)
+    while not path[0] == maze.start:
+        path.insert(0, parent[goal])
+        goal = parent[goal]
     return path
 
 
 def bfs_solver(maze):
+    parent = {}
     path = []
     queue = []
-    path.append(maze.start)
+    goal = maze.start
     queue.append(maze.start)
     discovered = {}
     while queue:
         cell = queue.pop(0)
+        goal = cell
         if cell == maze.goal:
             break
         if(discovered.setdefault(cell, False)):
@@ -69,7 +83,11 @@ def bfs_solver(maze):
         for ncell in maze.get_neighbors(cell):
             if not discovered.setdefault(ncell, False):
                 queue.append(ncell)
-                path.append(ncell)
+                parent[ncell] = cell
+    path.append(goal)
+    while not path[0] == maze.start:
+        path.insert(0, parent[goal])
+        goal = parent[goal]
     return path
 
 
@@ -78,12 +96,13 @@ def astar_heuristic(maze, cell):
 
 
 def astar_solver(maze):
+    parent = {}
     path = []
     heap = []
     cell_map = {}
     discovered = {}
     distance = astar_heuristic(maze, maze.start)
-    path.append(maze.start)
+    goal = maze.start
     heappush(heap, distance)
     cell_map.setdefault(distance, []).append(maze.start)
     while True:
@@ -98,5 +117,10 @@ def astar_solver(maze):
                 distance = astar_heuristic(maze, ncell)
                 heappush(heap, distance)
                 cell_map.setdefault(distance, []).append(ncell)
-                path.append(ncell)
+                goal = ncell
+                parent[goal] = cell
+    path.append(goal)
+    while not path[0] == maze.start:
+        path.insert(0, parent[goal])
+        goal = parent[goal]
     return path
