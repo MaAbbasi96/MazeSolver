@@ -15,11 +15,6 @@ ACTIONS_LEN = 4
 x = 0
 y = 1
 
-N_STATES = 4
-N_EPISODES = 500
-MIN_ALPHA = 0.02
-eps = 0.3
-
 q_dict = {}
 
 
@@ -189,13 +184,17 @@ def q(cell, action=None):
     return q_dict[cell][action]
 
 
-def make_action(cell):
+def make_action(cell, eps):
     if random.uniform(0, 1) < eps:
         return random.choice(ACTIONS) 
     else:
         return np.argmax(q(cell))
 
 def q_learning(maze):
+    N_STATES = 4
+    N_EPISODES = 500
+    MIN_ALPHA = 0.02
+    eps = 0.3
     MAX_EPISODE_STEPS = maze.nrows * maze.ncols * 3
     heap = []
     alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)
@@ -205,7 +204,7 @@ def q_learning(maze):
         alpha = alphas[i]
         count = 0
         for j in range(MAX_EPISODE_STEPS):
-            action = make_action(cell)
+            action = make_action(cell, eps)
             ncell, reward, is_finished, is_valid = take_action(maze, cell, action)
             total_reward += reward
             if is_valid:
