@@ -1,6 +1,27 @@
 # depth-limited dfs
 from math import sqrt
 from heapq import heappush, heappop
+import numpy as np
+import random
+
+
+UP = 0
+RIGHT = 1
+LEFT = 2
+DOWN = 3
+ACTIONS = [UP, RIGHT, LEFT, DOWN]
+ACTIONS_LEN = 4
+
+x = 0
+y = 1
+
+N_STATES = 4
+N_EPISODES = 500
+MIN_ALPHA = 0.02
+eps = 0.3
+
+q_dict = {}
+
 
 def dls_solver(maze, limit):
     parent = {}
@@ -124,3 +145,77 @@ def astar_solver(maze):
         path.insert(0, parent[goal])
         goal = parent[goal]
     return path
+
+
+def new_position(cell, action):
+    if action == UP:
+        ncell = (cell[x], cell[y]-1)
+    elif action == DOWN:
+        ncell = (cell[x], cell[y]+1)
+    elif action == LEFT:
+        ncell = (cell[x]-1, cell[y])
+    elif action == RIGHT:
+        ncell = (cell[x]+1, cell[y])
+    return ncell
+
+
+def take_action(maze, cell, action):
+    ncell = new_position(cell, action)
+    is_valid = True
+    if not maze.cell_is_valid(ncell):
+        reward = -100
+        is_finished = False
+        ncell = cell
+        is_valid = False
+    elif maze.check_wall(cell, ncell) != 0:
+        reward = -100
+        is_finished = False
+        ncell = cell
+        is_valid = False
+    elif ncell == maze.goal:
+        reward = 1000
+        is_finished = True
+    else:
+        reward = -1
+        is_finished = False
+    return ncell, reward, is_finished, is_valid
+
+
+def q(cell, action=None):
+    if cell not in q_dict:
+        q_dict[cell] = np.zeros(ACTIONS_LEN)    
+    if action is None:
+        return q_dict[cell]
+    return q_dict[cell][action]
+
+
+def make_action(cell):
+    if random.uniform(0, 1) < eps:
+        return random.choice(ACTIONS) 
+    else:
+        return np.argmax(q(cell))
+
+def q_learning(maze):
+    MAX_EPISODE_STEPS = maze.nrows * maze.ncols * 3
+    heap = []
+    alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)
+    for i in range(N_EPISODES):
+        cell = maze.start
+        total_reward = 0
+        alpha = alphas[i]
+        count = 0
+        for j in range(MAX_EPISODE_STEPS):
+            action = make_action(cell)
+            ncell, reward, is_finished, is_valid = take_action(maze, cell, action)
+            total_reward += reward
+            if is_valid:
+                count += 1
+            q(cell)[action] = q(cell, action) + alpha * (reward + np.max(q(ncell)) - q(cell, action))
+            cell = ncell
+            if is_finished:
+                print('Goal Reached.....!')
+                break
+        heappush(heap, count)
+        print("Episode {}: total reward: {}, cost: {}".format(i, total_reward, count))
+    print('Best path cost: {}'.format(heappop(heap)))
+    return []

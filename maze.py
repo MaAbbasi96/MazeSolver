@@ -103,6 +103,7 @@ class Maze:
     def get_neighbors(self, cell):
         around = [(cell[0] + dx, cell[1] + dy) for dx, dy in ADJACENT_DELTA]
         return [x for x in around if self.cell_is_valid(x) and self.check_wall(cell, x) == 0]
+        # if self.cell_is_valid(x) and self.check_wall(cell, x) == 0
 
     # read maze from file funcitons
     def read_from_file(self, filename):
@@ -199,18 +200,18 @@ if __name__ == "__main__":
     d = Displayer(m)
 
     # """   UNCOMMENT TO DISABLE IDFS
-    print(">> Testing Iterative DFS solver...")
-    idfs_path = iterative_dfs_solver(m)
-    try:
-        validate_answer(m, idfs_path) #m.goal in bfs_path:
-        print ("Iterative DFS solved maze. cost: ", len(idfs_path), "cells visited")
-        print ("Display Iterative DFS solution? [y/n]")
-        # display_command =input()
-        # if "y" in display_command:
-        d.draw_path(idfs_path)
-        a = input()
-    except AssertionError as e:
-        print ("Iterative DFS answer is invalid: " + e.message)
+    print(">> Testing Q-Learning solver...")
+    path = q_learning(m)
+    # try:
+    #     validate_answer(m, path) #m.goal in bfs_path:
+    #     print ("Iterative DFS solved maze. cost: ", len(path), "cells visited")
+    #     print ("Display Iterative DFS solution? [y/n]")
+    #     display_command =input()
+    #     if "y" in display_command:
+    #         d.draw_path(path)
+    #         a = input()
+    # except AssertionError as e:
+    #     print ("Iterative DFS answer is invalid: " + e.message)
         # UNCOMMENT TO DISABLE IDFS """
 
     # """   UNCOMMENT TO DISABLE BFS
@@ -228,7 +229,7 @@ if __name__ == "__main__":
         print(("BFS answer is invalid: " + e.message))
     # UNCOMMENT TO DISABLE BFS """
 
-    # """ UNCOMMENT TO DISABLE DFS
+    """ UNCOMMENT TO DISABLE DFS
     print(">> Testing DFS solver...")
     dfs_path = dfs_solver(m)
     try:
@@ -245,7 +246,7 @@ if __name__ == "__main__":
     # UNCOMMENT TO DISABLE DFS """
 
 
-    # """  UNCOMMENT TO DISABLE A*
+    """  UNCOMMENT TO DISABLE A*
     print(">> Testing A* solver...")
     astar_path = astar_solver(m)
     try:
